@@ -4,6 +4,7 @@
 // VCC - brązowy 5 V
 // masa - szary
 
+//czujnik bme280
 // SCL-23
 // SDA - 19
 // test git
