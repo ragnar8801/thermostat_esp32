@@ -50,11 +50,12 @@
 #define SCL_PIN 23
 #define BUTTON_GPIO GPIO_NUM_9
 
+// #define REAL_SENSOR // IF sensor connected, for tests, keep it commented
 
 #define I2C_MASTER_ACK 0
 #define I2C_MASTER_NACK 1
 
-#define MIN_TEM_CHECK 20
+#define MIN_TEM_CHECK 30
 #define DEBOUNCE_TIME_MS 50   
 #define LONG_PRESS_TIME_MS 3000
 
@@ -535,7 +536,7 @@ void powerOFF(void)
     gpio_set_level(21,0);
     gpio_set_level(20,0);
 }
-#if 0
+#ifdef REAL_SENSOR
 void MeasureTask(void *arg)
 {
     
@@ -622,10 +623,9 @@ void MeasureTask(void *arg)
 	}
 	
 }
-#endif
 
+#else
 ///// dummy MeasureTask
-#if 1
 void MeasureTask(void *arg)
 {
     
@@ -738,7 +738,7 @@ void app_main(void)
     nimble_port_freertos_init(host_task);      // 6 - Run the thread
 	gpio_configure1();
 
-	#if 0
+	#ifdef REAL_SENSOR
     i2c_master_init();
     #endif
     //button_sem = xSemaphoreCreateBinary();
@@ -753,7 +753,7 @@ void app_main(void)
         xTaskCreate(HeaterControl,"HeaterControl",1024*5,(void *)Mailbox1,1,&HeaterControlHandle);
         
         // xTaskCreate(Task2,"Task2",1024*5,(void *)xQueue1,1,&Task2Handle); TBA
-    
+ 
     }
     else{
         printf("Mailbox1 NOT CREATED\n\r");
